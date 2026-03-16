@@ -1,28 +1,27 @@
 package kg.attractor.lesson_49.controller;
 
-import kg.attractor.lesson_49.dto.UserDto;
-import kg.attractor.lesson_49.service.UserService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
-@RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+    // создание пользователя
+    @PostMapping
+    public ResponseEntity<String> createUser() {
+        return ResponseEntity.ok("User created");
+    }
 
-//    @Autowired
-//    public UserController(UserService userService) {
-//        this.userService = userService;
-//    }
+    // поиск работодателей
+    @GetMapping("/employers")
+    public ResponseEntity<String> findEmployers() {
+        return ResponseEntity.ok("Employers list");
+    }
 
-    @GetMapping
-    public ResponseEntity<UserDto> getSampleUser(){
-        return ResponseEntity.ok().body(userService.getSampleUser());
+    // поиск соискателей
+    @GetMapping("/applicants")
+    public ResponseEntity<String> findApplicants() {
+        return ResponseEntity.ok("Applicants list");
     }
 }
