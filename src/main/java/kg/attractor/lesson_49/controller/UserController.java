@@ -26,7 +26,7 @@ public class UserController {
     public ResponseEntity<List<User>> findEmployers() {
         return ResponseEntity.ok(
                 userService.getAllUsers().stream()
-                        .filter(u -> "EMPLOYER".equals(u.getAccountType()) || "EMPLOYER".equals(u.getAccountType()))
+                        .filter(u -> "EMPLOYER".equals(u.getAccountType()))
                         .toList()
         );
     }

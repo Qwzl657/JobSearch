@@ -4,28 +4,29 @@ import kg.attractor.lesson_49.model.Vacancy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class VacancyDao {
 
     private final JdbcTemplate jdbcTemplate;
 
     public List<Vacancy> findAll() {
-        return jdbcTemplate.query(
-                "SELECT * FROM vacancies",
-                new BeanPropertyRowMapper<>(Vacancy.class)
-        );
+        return jdbcTemplate.query("SELECT * FROM vacancies",
+                new BeanPropertyRowMapper<>(Vacancy.class));
     }
 
     public List<Vacancy> findByCategory(String category) {
-        return jdbcTemplate.query(
-                "SELECT * FROM vacancies WHERE category = ?",
-                new BeanPropertyRowMapper<>(Vacancy.class),
-                category
-        );
+        String sql = "SELECT * FROM vacancies WHERE category = ?";
+        return jdbcTemplate.query(sql,
+                new BeanPropertyRowMapper<>(Vacancy.class), category);
+    }
+
+    public List<Long> getRespondedVacancies(Long userId) {
+        String sql = "SELECT vacancy_id FROM responses WHERE user_id = ?";
+        return jdbcTemplate.queryForList(sql, Long.class, userId);
     }
 }
