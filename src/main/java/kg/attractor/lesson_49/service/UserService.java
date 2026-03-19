@@ -1,12 +1,6 @@
 package kg.attractor.lesson_49.service;
 
 import kg.attractor.lesson_49.dto.UserDto;
-<<<<<<< HEAD
-
-public interface UserService {
-    UserDto getSampleUser();
-}
-=======
 import kg.attractor.lesson_49.model.User;
 
 import java.util.List;
@@ -17,4 +11,3 @@ public interface UserService {
 
     List<User> getAllUsers(); // новый
 }
->>>>>>> homework_51

@@ -30,10 +30,7 @@
         <java.version>25</java.version>
     </properties>
     <dependencies>
-<<<<<<< HEAD
-=======
 
->>>>>>> homework_51
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc</artifactId>
@@ -44,36 +41,25 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-<<<<<<< HEAD
-=======
 
->>>>>>> homework_51
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc-test</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-<<<<<<< HEAD
-=======
 
->>>>>>> homework_51
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.13.2</version>
             <scope>compile</scope>
         </dependency>
-<<<<<<< HEAD
-=======
 
->>>>>>> homework_51
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>3.0.2</version>
         </dependency>
-<<<<<<< HEAD
-=======
 
         <dependency>
             <groupId>com.h2database</groupId>
@@ -89,7 +75,6 @@
             <scope>compile</scope>
         </dependency>
 
->>>>>>> homework_51
     </dependencies>
 
     <build>
