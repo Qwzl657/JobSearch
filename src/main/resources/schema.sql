@@ -1,22 +1,26 @@
 CREATE TABLE users (
                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
                        name VARCHAR(100),
+                       surname VARCHAR(100),
+                       age INT,
                        email VARCHAR(100) UNIQUE,
-                       phone VARCHAR(50),
-                       role VARCHAR(20)
+                       password VARCHAR(100),
+                       phone_number VARCHAR(50),
+                       avatar VARCHAR(255),
+                       account_type VARCHAR(20)
 );
 
 CREATE TABLE resumes (
                          id BIGINT AUTO_INCREMENT PRIMARY KEY,
                          user_id BIGINT,
-                         title VARCHAR(100),
+                         name VARCHAR(100),
                          category VARCHAR(50)
 );
 
 CREATE TABLE vacancies (
                            id BIGINT AUTO_INCREMENT PRIMARY KEY,
                            user_id BIGINT,
-                           title VARCHAR(100),
+                           name VARCHAR(100),
                            category VARCHAR(50)
 );
 

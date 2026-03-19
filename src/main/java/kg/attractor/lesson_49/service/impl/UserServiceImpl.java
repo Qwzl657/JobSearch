@@ -1,31 +1,30 @@
-package kg.attractor.lesson_49.service.impl;
+package kg.attractor.lesson_49.service;
 
 import kg.attractor.lesson_49.dao.UserDao;
-import kg.attractor.lesson_49.dto.UserDto;
 import kg.attractor.lesson_49.model.User;
-import kg.attractor.lesson_49.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
 
-    @Override
-    public UserDto getSampleUser() {
-        return UserDto.builder()
-                .username("test")
-                .email("test@mail.com")
-                .password("123")
-                .build();
+    public UserServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
     }
 
-    @Override
-    public List<User> getAllUsers() {
+    public List<User> getAll() {
         return userDao.findAll();
+    }
+
+    public Optional<User> getByEmail(String email) {
+        return userDao.findByEmail(email);
+    }
+
+    public boolean exists(String email) {
+        return userDao.existsByEmail(email);
     }
 }

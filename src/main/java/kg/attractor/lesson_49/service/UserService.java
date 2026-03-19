@@ -1,13 +1,12 @@
 package kg.attractor.lesson_49.service;
 
-import kg.attractor.lesson_49.dto.UserDto;
 import kg.attractor.lesson_49.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
-
-    UserDto getSampleUser(); // старый метод НЕ трогаем
-
-    List<User> getAllUsers(); // новый
+    List<User> getAll();
+    Optional<User> getByEmail(String email);
+    boolean exists(String email);
 }

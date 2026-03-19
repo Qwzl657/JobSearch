@@ -4,12 +4,12 @@ import kg.attractor.lesson_49.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Repository
 @RequiredArgsConstructor
 public class UserDao {
 
@@ -22,22 +22,31 @@ public class UserDao {
 
     public Optional<User> findByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email = ?";
-        List<User> users = jdbcTemplate.query(sql,
-                new BeanPropertyRowMapper<>(User.class), email);
+        List<User> users = jdbcTemplate.query(
+                sql,
+                new BeanPropertyRowMapper<>(User.class),
+                email
+        );
 
         return users.stream().findFirst();
     }
 
     public List<User> findByName(String name) {
         String sql = "SELECT * FROM users WHERE name = ?";
-        return jdbcTemplate.query(sql,
-                new BeanPropertyRowMapper<>(User.class), name);
+        return jdbcTemplate.query(
+                sql,
+                new BeanPropertyRowMapper<>(User.class),
+                name
+        );
     }
 
     public List<User> findByPhone(String phone) {
-        String sql = "SELECT * FROM users WHERE phone = ?";
-        return jdbcTemplate.query(sql,
-                new BeanPropertyRowMapper<>(User.class), phone);
+        String sql = "SELECT * FROM users WHERE phone_number = ?";
+        return jdbcTemplate.query(
+                sql,
+                new BeanPropertyRowMapper<>(User.class),
+                phone
+        );
     }
 
     public boolean existsByEmail(String email) {

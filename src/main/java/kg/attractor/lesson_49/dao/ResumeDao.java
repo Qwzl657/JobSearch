@@ -2,13 +2,12 @@ package kg.attractor.lesson_49.dao;
 
 import kg.attractor.lesson_49.model.Resume;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.jdbc.core.*;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Component
+@Repository
 @RequiredArgsConstructor
 public class ResumeDao {
 
@@ -20,14 +19,18 @@ public class ResumeDao {
     }
 
     public List<Resume> findByCategory(String category) {
-        String sql = "SELECT * FROM resumes WHERE category = ?";
-        return jdbcTemplate.query(sql,
-                new BeanPropertyRowMapper<>(Resume.class), category);
+        return jdbcTemplate.query(
+                "SELECT * FROM resumes WHERE category = ?",
+                new BeanPropertyRowMapper<>(Resume.class),
+                category
+        );
     }
 
     public List<Resume> findByUserId(Long userId) {
-        String sql = "SELECT * FROM resumes WHERE user_id = ?";
-        return jdbcTemplate.query(sql,
-                new BeanPropertyRowMapper<>(Resume.class), userId);
+        return jdbcTemplate.query(
+                "SELECT * FROM resumes WHERE user_id = ?",
+                new BeanPropertyRowMapper<>(Resume.class),
+                userId
+        );
     }
 }

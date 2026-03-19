@@ -1,23 +1,14 @@
 package kg.attractor.lesson_49.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Resume {
 
-    private int id;
-    private int applicantId;
+    private Long id;
+    private Long userId;
     private String name;
-    private int categoryId;
-    private double salary;
-    private boolean isActive;
-    private String createdDate;
-    private String updateTime;
-
+    private String category;
 }
