@@ -9,11 +9,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getSampleUser(){
-        UserDto user = new UserDto();
-        user.setUsername("Alex");
-        user.setEmail("qwe@qwe.qwe");
-        user.setPassword("qwerty");
-        return user;
     }
 
 }

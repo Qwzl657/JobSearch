@@ -23,18 +23,12 @@ public class VacancyController {
     }
 
     @GetMapping
-    public ResponseEntity<String> getAllVacancies() {
-        return ResponseEntity.ok("All vacancies");
     }
 
-    @GetMapping("/category/{id}")
-    public ResponseEntity<String> getVacanciesByCategory(@PathVariable Long id) {
-        return ResponseEntity.ok("Vacancies by category");
     }
 
     @PostMapping("/{id}/respond")
     public ResponseEntity<String> respondVacancy(@PathVariable Long id) {
         return ResponseEntity.ok("Responded to vacancy");
     }
-
 }

@@ -1,5 +1,6 @@
 package kg.attractor.lesson_49.controller;
 
+<<<<<<< HEAD
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -7,6 +8,23 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/resumes")
 public class ResumeController {
 
+=======
+import kg.attractor.lesson_49.model.Resume;
+import kg.attractor.lesson_49.service.ResumeService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/resumes")
+@RequiredArgsConstructor
+public class ResumeController {
+
+    private final ResumeService resumeService;
+
+>>>>>>> homework_51
     @PostMapping
     public ResponseEntity<String> createResume() {
         return ResponseEntity.ok("Resume created");
@@ -23,6 +41,7 @@ public class ResumeController {
     }
 
     @GetMapping
+<<<<<<< HEAD
     public ResponseEntity<String> getAllResumes() {
         return ResponseEntity.ok("All resumes");
     }
@@ -32,4 +51,14 @@ public class ResumeController {
         return ResponseEntity.ok("Resumes by category");
     }
 
+=======
+    public ResponseEntity<List<Resume>> getAllResumes() {
+        return ResponseEntity.ok(resumeService.getAll());
+    }
+
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<Resume>> getResumesByCategory(@PathVariable String category) {
+        return ResponseEntity.ok(resumeService.getByCategory(category));
+    }
+>>>>>>> homework_51
 }
