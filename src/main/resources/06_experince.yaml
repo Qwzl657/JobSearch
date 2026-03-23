@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-experience
+      author: ali
+      changes:
+        - createTable:
+            tableName: experience
+            columns:
+              - column: { name: id, type: BIGINT, autoIncrement: true }
+              - column: { name: resume_id, type: BIGINT }
+              - column: { name: company, type: VARCHAR(255) }
