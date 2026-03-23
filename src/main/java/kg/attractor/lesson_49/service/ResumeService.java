@@ -17,7 +17,15 @@ public class ResumeService {
         return resumeDao.findAll();
     }
 
-    public List<Resume> getByCategory(String category) {
-        return resumeDao.findByCategory(category);
+    public void create(Resume resume) {
+        resumeDao.create(resume);
+    }
+
+    public void update(Resume resume) {
+        resumeDao.update(resume);
+    }
+
+    public void delete(Long id) {
+        resumeDao.delete(id);
     }
 }

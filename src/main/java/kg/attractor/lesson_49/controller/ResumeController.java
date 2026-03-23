@@ -16,27 +16,25 @@ public class ResumeController {
     private final ResumeService resumeService;
 
     @PostMapping
-    public ResponseEntity<String> createResume() {
-        return ResponseEntity.ok("Resume created");
+    public ResponseEntity<?> create(@RequestBody Resume resume) {
+        resumeService.create(resume);
+        return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateResume(@PathVariable Long id) {
-        return ResponseEntity.ok("Resume updated");
+    @PutMapping
+    public ResponseEntity<?> update(@RequestBody Resume resume) {
+        resumeService.update(resume);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteResume(@PathVariable Long id) {
-        return ResponseEntity.ok("Resume deleted");
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        resumeService.delete(id);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity<List<Resume>> getAllResumes() {
+    public ResponseEntity<List<Resume>> getAll() {
         return ResponseEntity.ok(resumeService.getAll());
-    }
-
-    @GetMapping("/category/{category}")
-    public ResponseEntity<List<Resume>> getResumesByCategory(@PathVariable String category) {
-        return ResponseEntity.ok(resumeService.getByCategory(category));
     }
 }
