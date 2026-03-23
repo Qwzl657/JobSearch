@@ -18,19 +18,33 @@ public class ResumeDao {
                 new BeanPropertyRowMapper<>(Resume.class));
     }
 
-    public List<Resume> findByCategory(String category) {
-        return jdbcTemplate.query(
-                "SELECT * FROM resumes WHERE category = ?",
+    public Resume findById(Long id) {
+        return jdbcTemplate.queryForObject(
+                "SELECT * FROM resumes WHERE id = ?",
                 new BeanPropertyRowMapper<>(Resume.class),
-                category
+                id
         );
     }
 
-    public List<Resume> findByUserId(Long userId) {
-        return jdbcTemplate.query(
-                "SELECT * FROM resumes WHERE user_id = ?",
-                new BeanPropertyRowMapper<>(Resume.class),
-                userId
+    public void create(Resume resume) {
+        jdbcTemplate.update(
+                "INSERT INTO resumes (user_id, name, category) VALUES (?, ?, ?)",
+                resume.getUserId(),
+                resume.getName(),
+                resume.getCategory()
         );
+    }
+
+    public void update(Resume resume) {
+        jdbcTemplate.update(
+                "UPDATE resumes SET name = ?, category = ? WHERE id = ?",
+                resume.getName(),
+                resume.getCategory(),
+                resume.getId()
+        );
+    }
+
+    public void delete(Long id) {
+        jdbcTemplate.update("DELETE FROM resumes WHERE id = ?", id);
     }
 }

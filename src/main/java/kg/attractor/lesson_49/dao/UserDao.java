@@ -54,4 +54,22 @@ public class UserDao {
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
         return count != null && count > 0;
     }
+    public void update(User user) {
+        String sql = """
+        UPDATE users 
+        SET name = ?, surname = ?, age = ?, email = ?, phone_number = ?, avatar = ?, account_type = ?
+        WHERE id = ?
+    """;
+
+        jdbcTemplate.update(sql,
+                user.getName(),
+                user.getSurname(),
+                user.getAge(),
+                user.getEmail(),
+                user.getPhoneNumber(),
+                user.getAvatar(),
+                user.getAccountType(),
+                user.getId()
+        );
+    }
 }
