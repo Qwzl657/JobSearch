@@ -14,7 +14,7 @@ public class ResponseDao {
 
     public void respond(Long userId, Long vacancyId) {
         jdbcTemplate.update(
-                "INSERT INTO responses (userId, vacancyId) VALUES (?, ?)",
+                "INSERT INTO responses (user_id, vacancy_id) VALUES (?, ?)",
                 userId, vacancyId
         );
     }
