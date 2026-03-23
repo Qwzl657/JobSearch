@@ -18,17 +18,21 @@ public class VacancyController {
     private final ResponseService responseService;
 
     @PostMapping
-    public ResponseEntity<String> createVacancy() {
+    public ResponseEntity<String> createVacancy(@RequestBody Vacancy v) {
+        vacancyService.create(v);
         return ResponseEntity.ok("Vacancy created");
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateVacancy(@PathVariable Long id) {
+    public ResponseEntity<String> updateVacancy(@PathVariable Long id, @RequestBody Vacancy v) {
+        v.setId(id);
+        vacancyService.update(v);
         return ResponseEntity.ok("Vacancy updated");
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteVacancy(@PathVariable Long id) {
+        vacancyService.delete(id);
         return ResponseEntity.ok("Vacancy deleted");
     }
 
