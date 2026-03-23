@@ -2,6 +2,7 @@ package kg.attractor.lesson_49.controller;
 
 import kg.attractor.lesson_49.model.User;
 import kg.attractor.lesson_49.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,5 +20,11 @@ public class UserController {
     @GetMapping
     public List<User> getAll() {
         return userService.getAll();
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User user) {
+        user.setId(id);
+        userService.update(user);
+        return ResponseEntity.ok().build();
     }
 }
