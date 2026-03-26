@@ -1,5 +1,6 @@
 package kg.attractor.lesson_49.controller;
 
+import jakarta.validation.Valid;
 import kg.attractor.lesson_49.model.User;
 import kg.attractor.lesson_49.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +22,12 @@ public class UserController {
     public List<User> getAll() {
         return userService.getAll();
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User user) {
+    public ResponseEntity<?> updateUser(
+            @PathVariable Long id,
+            @Valid @RequestBody User user
+    ) {
         user.setId(id);
         userService.update(user);
         return ResponseEntity.ok().build();

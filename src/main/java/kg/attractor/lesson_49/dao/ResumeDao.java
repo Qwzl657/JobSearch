@@ -2,7 +2,8 @@ package kg.attractor.lesson_49.dao;
 
 import kg.attractor.lesson_49.model.Resume;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.*;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

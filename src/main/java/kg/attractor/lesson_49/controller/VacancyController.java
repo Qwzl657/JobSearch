@@ -1,5 +1,6 @@
 package kg.attractor.lesson_49.controller;
 
+import jakarta.validation.Valid;
 import kg.attractor.lesson_49.model.Vacancy;
 import kg.attractor.lesson_49.service.ResponseService;
 import kg.attractor.lesson_49.service.VacancyService;
@@ -18,13 +19,16 @@ public class VacancyController {
     private final ResponseService responseService;
 
     @PostMapping
-    public ResponseEntity<String> createVacancy(@RequestBody Vacancy v) {
+    public ResponseEntity<String> createVacancy(@Valid @RequestBody Vacancy v) {
         vacancyService.create(v);
-        return ResponseEntity.ok("Vacancy created");
+        return ResponseEntity.status(201).body("Vacancy created");
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateVacancy(@PathVariable Long id, @RequestBody Vacancy v) {
+    public ResponseEntity<String> updateVacancy(
+            @PathVariable Long id,
+            @Valid @RequestBody Vacancy v
+    ) {
         v.setId(id);
         vacancyService.update(v);
         return ResponseEntity.ok("Vacancy updated");
@@ -33,7 +37,7 @@ public class VacancyController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteVacancy(@PathVariable Long id) {
         vacancyService.delete(id);
-        return ResponseEntity.ok("Vacancy deleted");
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping
@@ -48,7 +52,7 @@ public class VacancyController {
 
     @PostMapping("/{id}/respond")
     public ResponseEntity<String> respondVacancy(@PathVariable Long id) {
-        responseService.respond(1L, id); // временно user = 1
+        responseService.respond(1L, id);
         return ResponseEntity.ok("Responded to vacancy");
     }
 }

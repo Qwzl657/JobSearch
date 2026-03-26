@@ -1,5 +1,6 @@
 package kg.attractor.lesson_49.controller;
 
+import jakarta.validation.Valid;
 import kg.attractor.lesson_49.model.Resume;
 import kg.attractor.lesson_49.service.ResumeService;
 import lombok.RequiredArgsConstructor;
@@ -16,13 +17,13 @@ public class ResumeController {
     private final ResumeService resumeService;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody Resume resume) {
+    public ResponseEntity<?> create(@Valid @RequestBody Resume resume) {
         resumeService.create(resume);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(201).build();
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody Resume resume) {
+    public ResponseEntity<?> update(@Valid @RequestBody Resume resume) {
         resumeService.update(resume);
         return ResponseEntity.ok().build();
     }
@@ -30,7 +31,7 @@ public class ResumeController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         resumeService.delete(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping

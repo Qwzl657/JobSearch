@@ -1,12 +1,13 @@
 package kg.attractor.lesson_49.service;
 
 import kg.attractor.lesson_49.dao.ResumeDao;
+import kg.attractor.lesson_49.error.exception.BadRequestException;
 import kg.attractor.lesson_49.model.Resume;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
@@ -26,11 +27,21 @@ public class ResumeService {
     }
 
     public void update(Resume resume) {
+
+        if (resume.getId() == null) {
+            throw new BadRequestException("ID обязателен");
+        }
+
         log.warn("Updating resume id={}", resume.getId());
         resumeDao.update(resume);
     }
 
     public void delete(Long id) {
+
+        if (id == null) {
+            throw new BadRequestException("ID не может быть null");
+        }
+
         log.error("Deleting resume id={}", id);
         resumeDao.delete(id);
     }
