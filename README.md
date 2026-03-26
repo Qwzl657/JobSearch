@@ -1,3 +1,123 @@
+ Lesson 53 — REST API (Users, Resumes, Vacancies)
+
+ Описание проекта
+
+Данный проект представляет собой REST API для работы с пользователями, резюме и вакансиями.
+
+Реализованы:
+	•	CRUD операции
+	•	валидация данных
+	•	обработка ошибок
+	•	работа с базой данных через JDBC
+	•	логирование
+
+⸻
+
+ Используемые технологии
+	•	Java 17+
+	•	Spring Boot
+	•	JdbcTemplate
+	•	H2 Database
+	•	Bean Validation (jakarta.validation)
+	•	Lombok
+	•	SLF4J (логирование)
+
+⸻
+
+ Архитектура проекта
+
+Проект построен по слоям:
+	•	Controller — обработка HTTP-запросов
+	•	Service — бизнес-логика
+	•	DAO — работа с базой данных
+	•	Model — сущности
+	•	Exception Handler — глобальная обработка ошибок
+
+⸻
+
+ REST API
+
+ Users
+	•	GET /users — получить список пользователей
+	•	POST /users — создать пользователя
+	•	PUT /users — обновить пользователя
+	•	DELETE /users/{id} — удалить пользователя
+
+⸻
+
+ Resumes
+	•	GET /resumes — получить все резюме
+	•	POST /resumes — создать резюме
+	•	PUT /resumes — обновить резюме
+	•	DELETE /resumes/{id} — удалить резюме
+
+⸻
+
+ Vacancies
+	•	GET /vacancies — получить все вакансии
+	•	POST /vacancies — создать вакансию
+	•	PUT /vacancies — обновить вакансию
+	•	DELETE /vacancies/{id} — удалить вакансию
+
+⸻
+
+ Валидация
+
+Используется Bean Validation:
+
+Примеры:
+	•	@NotBlank
+	•	@Email
+	•	@Size
+	•	@Min / @Max
+	•	@Pattern
+
+Валидация работает через @Valid в контроллерах.
+
+⸻
+
+Обработка ошибок
+
+Реализован глобальный обработчик:
+	•	GlobalExceptionHandler
+
+Поддерживаются:
+	•	400 — Bad Request
+	•	404 — Not Found
+	•	500 — Server Error
+
+Ошибки возвращаются в формате:
+{
+  "message": "Ошибка",
+  "details": "Описание"
+}
+ База данных
+
+Используется H2:
+
+Таблицы:
+	•	users
+	•	resumes
+	•	vacancies
+
+Основные операции:
+	•	CREATE
+	•	INSERT
+	•	SELECT
+	•	UPDATE
+	•	DELETE
+
+Работа с БД осуществляется через JdbcTemplate.
+
+⸻
+
+ DAO слой
+
+Каждая сущность имеет свой DAO:
+	•	UserDao
+	•	ResumeDa
+
+
 # JobSearch REST API (Homework #50)
 
 ## Описание проекта

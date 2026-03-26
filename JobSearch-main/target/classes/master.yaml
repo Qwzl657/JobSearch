@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include: { file: 01_users.yaml }
+  - include: { file: 02_resumes.yaml }
+  - include: { file: 03_vacancies.yaml }
+  - include: { file: 04_responses.yaml }
+  - include: { file: 05_education.yaml }
+  - include: { file: 06_experience.yaml }

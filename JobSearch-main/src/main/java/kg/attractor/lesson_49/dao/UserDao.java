@@ -1,0 +1,75 @@
+package kg.attractor.lesson_49.dao;
+
+import kg.attractor.lesson_49.model.User;
+import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+@RequiredArgsConstructor
+public class UserDao {
+
+    private final JdbcTemplate jdbcTemplate;
+
+    public List<User> findAll() {
+        String sql = "SELECT * FROM users";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class));
+    }
+
+    public Optional<User> findByEmail(String email) {
+        String sql = "SELECT * FROM users WHERE email = ?";
+        List<User> users = jdbcTemplate.query(
+                sql,
+                new BeanPropertyRowMapper<>(User.class),
+                email
+        );
+
+        return users.stream().findFirst();
+    }
+
+    public List<User> findByName(String name) {
+        String sql = "SELECT * FROM users WHERE name = ?";
+        return jdbcTemplate.query(
+                sql,
+                new BeanPropertyRowMapper<>(User.class),
+                name
+        );
+    }
+
+    public List<User> findByPhone(String phone) {
+        String sql = "SELECT * FROM users WHERE phone_number = ?";
+        return jdbcTemplate.query(
+                sql,
+                new BeanPropertyRowMapper<>(User.class),
+                phone
+        );
+    }
+
+    public boolean existsByEmail(String email) {
+        String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
+        return count != null && count > 0;
+    }
+    public void update(User user) {
+        String sql = """
+        UPDATE users 
+        SET name = ?, surname = ?, age = ?, email = ?, phone_number = ?, avatar = ?, account_type = ?
+        WHERE id = ?
+    """;
+
+        jdbcTemplate.update(sql,
+                user.getName(),
+                user.getSurname(),
+                user.getAge(),
+                user.getEmail(),
+                user.getPhoneNumber(),
+                user.getAvatar(),
+                user.getAccountType(),
+                user.getId()
+        );
+    }
+}
