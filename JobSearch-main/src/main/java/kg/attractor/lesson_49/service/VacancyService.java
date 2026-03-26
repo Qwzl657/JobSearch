@@ -1,6 +1,7 @@
 package kg.attractor.lesson_49.service;
 
 import kg.attractor.lesson_49.dao.VacancyDao;
+import kg.attractor.lesson_49.error.exception.BadRequestException;
 import kg.attractor.lesson_49.model.Vacancy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,5 +40,13 @@ public class VacancyService {
     public void delete(Long id) {
         log.error("Deleting vacancy id={}", id);
         vacancyDao.delete(id);
+    }
+    public void update(Vacancy v) {
+
+        if (v.getId() == null) {
+            throw new BadRequestException("ID обязателен");
+        }
+
+        vacancyDao.update(v);
     }
 }
