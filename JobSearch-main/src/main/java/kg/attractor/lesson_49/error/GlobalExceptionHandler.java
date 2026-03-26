@@ -1,5 +1,7 @@
 package kg.attractor.lesson_49.error;
 
+import kg.attractor.lesson_49.error.exception.BadRequestException;
+import kg.attractor.lesson_49.error.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +24,21 @@ public class GlobalExceptionHandler {
         return new ErrorResponse("Ошибка валидации", details);
     }
 
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleRuntime(RuntimeException ex) {
-        return new ErrorResponse("Ошибка", ex.getMessage());
+    public ErrorResponse handleNotFound(NotFoundException ex) {
+        return new ErrorResponse("Not Found", ex.getMessage());
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleBadRequest(BadRequestException ex) {
+        return new ErrorResponse("Bad Request", ex.getMessage());
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleOther(RuntimeException ex) {
+        return new ErrorResponse("Server error", ex.getMessage());
     }
 }
