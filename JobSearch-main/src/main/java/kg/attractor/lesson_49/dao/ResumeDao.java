@@ -18,6 +18,13 @@ public class ResumeDao {
                 new BeanPropertyRowMapper<>(Resume.class));
     }
 
+    public Resume getById(Long id) {
+        return findAll().stream()
+                .filter(r -> r.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Resume not found with id: " + id));
+    }
+    
     public Resume findById(Long id) {
         return jdbcTemplate.queryForObject(
                 "SELECT * FROM resumes WHERE id = ?",
