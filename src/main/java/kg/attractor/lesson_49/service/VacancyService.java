@@ -32,11 +32,6 @@ public class VacancyService {
         vacancyDao.create(v);
     }
 
-    public void update(Vacancy v) {
-        log.warn("Updating vacancy id={}", v.getId());
-        vacancyDao.update(v);
-    }
-
     public void delete(Long id) {
         log.error("Deleting vacancy id={}", id);
         vacancyDao.delete(id);

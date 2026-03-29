@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-security
+      author: ali
+      changes:
+        - sql: |
+            insert into authorities (authority)
+            values ('FULL'), ('READ');
+
+            insert into roles (role, authority_id)
+            values ('ADMIN', 1), ('USER', 2);
+
+            update users
+            set enabled = true,
+                role_id = 2;
