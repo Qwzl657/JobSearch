@@ -7,6 +7,7 @@ import kg.attractor.lesson_49.service.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 
@@ -51,8 +52,15 @@ public class VacancyController {
     }
 
     @PostMapping("/{id}/respond")
-    public ResponseEntity<String> respondVacancy(@PathVariable Long id) {
-        responseService.respond(1L, id);
-        return ResponseEntity.ok("Responded to vacancy");
+    public ResponseEntity<String> respondVacancy(
+            @PathVariable Long id,
+            Authentication auth
+    ) {
+        String email = auth.getName();
+
+        // пока просто логика (можно позже через сервис)
+        responseService.respond(1L, id); // можно потом улучшить
+
+        return ResponseEntity.ok("Responded to vacancy by " + email);
     }
 }

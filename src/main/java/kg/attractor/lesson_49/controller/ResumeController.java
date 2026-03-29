@@ -6,7 +6,7 @@ import kg.attractor.lesson_49.service.ResumeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.security.core.Authentication;
 import java.util.List;
 
 @RestController
@@ -17,7 +17,13 @@ public class ResumeController {
     private final ResumeService resumeService;
 
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody Resume resume) {
+    public ResponseEntity<?> create(
+            @Valid @RequestBody Resume resume,
+            Authentication auth
+    ) {
+        // временно (если нет DAO метода)
+        resume.setUserId(1L);
+
         resumeService.create(resume);
         return ResponseEntity.status(201).build();
     }
