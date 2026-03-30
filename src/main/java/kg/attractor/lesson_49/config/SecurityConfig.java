@@ -32,12 +32,15 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService(DataSource dataSource) {
         JdbcUserDetailsManager manager = new JdbcUserDetailsManager(dataSource);
 
+// CHANGE
         manager.setUsersByUsernameQuery(
-                "select email, password, enabled from users where email = ?"
+                "select email as username, password, enabled from users where email = ?"
         );
 
+// CHANGE
         manager.setAuthoritiesByUsernameQuery(
-                "select u.email, r.role from users u join roles r on u.role_id = r.id where u.email = ?"
+                "select u.email as username, r.role as authority " +
+                        "from users u join roles r on u.role_id = r.id where u.email = ?"
         );
 
         return manager;

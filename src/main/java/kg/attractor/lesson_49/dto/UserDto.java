@@ -29,4 +29,17 @@ public class UserDto {
     @NotBlank(message = "Email обязателен")
     @Email(message = "Неверный формат email")
     private String email;
+
+    // ADD
+    @NotBlank
+    private String name;
+
+    @NotBlank
+    private String surname;
+
+    @Min(16)
+    private Integer age;
+
+    @Pattern(regexp = "^\\+?[0-9]{10,15}$")
+    private String phoneNumber;
 }

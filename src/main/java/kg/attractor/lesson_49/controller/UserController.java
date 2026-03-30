@@ -37,9 +37,15 @@ public class UserController {
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody UserDto dto) {
 
+// CHANGE
         User user = User.builder()
+                .name(dto.getName())
+                .surname(dto.getSurname())
+                .age(dto.getAge())
                 .email(dto.getEmail())
                 .password(dto.getPassword())
+                .phoneNumber(dto.getPhoneNumber())
+                .accountType("USER")
                 .build();
 
         userService.create(user);

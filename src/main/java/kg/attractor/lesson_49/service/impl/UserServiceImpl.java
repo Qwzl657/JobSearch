@@ -1,16 +1,13 @@
-package kg.attractor.lesson_49.service.impl;
+package kg.attractor.lesson_49.service;
 
 import kg.attractor.lesson_49.dao.UserDao;
-import kg.attractor.lesson_49.error.exception.BadRequestException;
 import kg.attractor.lesson_49.error.exception.NotFoundException;
 import kg.attractor.lesson_49.model.User;
-import kg.attractor.lesson_49.service.UserService;
-
-import lombok.extern.slf4j.Slf4j;
 import lombok.RequiredArgsConstructor;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
+import org.springframework.security.crypto.password.PasswordEncoder; // NEW
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +18,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder; // NEW
 
     @Override
     public List<User> getAll() {
@@ -39,38 +36,27 @@ public class UserServiceImpl implements UserService {
         return userDao.existsByEmail(email);
     }
 
-    // ✅ НОВЫЙ МЕТОД (регистрация)
+    @Override
     public void create(User user) {
-
-        if (userDao.existsByEmail(user.getEmail())) {
-            throw new BadRequestException("Email already exists");
-        }
 
         log.info("Creating user: {}", user.getEmail());
 
+        // NEW — шифрование пароля
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         userDao.create(user);
     }
 
     @Override
     public void update(User user) {
 
-        User existing = userDao.findById(user.getId())
-                .orElseThrow(() -> new NotFoundException("Пользователь не найден"));
-
-        if (!existing.getEmail().equals(user.getEmail())
-                && userDao.existsByEmail(user.getEmail())) {
-
-            throw new BadRequestException("Email уже занят");
+        // CHANGE — проверяем пользователя по ID (как требует преподаватель)
+        if (user.getId() == null || userDao.findById(user.getId()).isEmpty()) {
+            throw new NotFoundException("User not found");
         }
 
-        log.warn("Updating user: {}", user.getEmail());
+        log.warn("Updating user id={}", user.getId());
 
         userDao.update(user);
-    }
-
-    public User getByEmailOrThrow(String email) {
-        return userDao.findByEmail(email)
-                .orElseThrow(() -> new NotFoundException("Пользователь не найден"));
     }
 }
