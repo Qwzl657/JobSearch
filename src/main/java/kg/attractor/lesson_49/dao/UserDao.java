@@ -78,4 +78,22 @@ public class UserDao {
                 user.getId()
         );
     }
+
+    public void create(User user) {
+        String sql = """
+        INSERT INTO users (name, surname, age, email, password, phone_number, avatar, account_type, enabled, role_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, true, 2)
+    """;
+
+        jdbcTemplate.update(sql,
+                user.getName(),
+                user.getSurname(),
+                user.getAge(),
+                user.getEmail(),
+                user.getPassword(),
+                user.getPhoneNumber(),
+                user.getAvatar(),
+                user.getAccountType()
+        );
+    }
 }

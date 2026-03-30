@@ -5,12 +5,12 @@ import kg.attractor.lesson_49.model.User;
 import kg.attractor.lesson_49.service.VacancyService;
 import kg.attractor.lesson_49.service.ResponseService;
 import kg.attractor.lesson_49.dao.UserDao;
+import kg.attractor.lesson_49.error.exception.NotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import org.springframework.security.core.Authentication;
 
 import jakarta.validation.Valid;
@@ -32,7 +32,7 @@ public class VacancyController {
         String email = auth.getName();
 
         User user = userDao.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new NotFoundException("User not found"));
 
         vacancy.setUserId(user.getId());
 
@@ -48,7 +48,7 @@ public class VacancyController {
         String email = auth.getName();
 
         User user = userDao.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new NotFoundException("User not found"));
 
         responseService.respond(user.getId(), id);
 

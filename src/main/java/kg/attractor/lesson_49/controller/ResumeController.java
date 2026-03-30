@@ -4,12 +4,12 @@ import kg.attractor.lesson_49.model.Resume;
 import kg.attractor.lesson_49.model.User;
 import kg.attractor.lesson_49.service.ResumeService;
 import kg.attractor.lesson_49.dao.UserDao;
+import kg.attractor.lesson_49.error.exception.NotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import org.springframework.security.core.Authentication;
 
 import jakarta.validation.Valid;
@@ -30,7 +30,7 @@ public class ResumeController {
         String email = auth.getName();
 
         User user = userDao.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new NotFoundException("User not found"));
 
         resume.setUserId(user.getId());
 

@@ -18,6 +18,13 @@ public class UserController {
         this.userService = userService;
     }
 
+    //  регистрация
+    @PostMapping
+    public ResponseEntity<?> create(@Valid @RequestBody User user) {
+        userService.create(user);
+        return ResponseEntity.status(201).build();
+    }
+
     @GetMapping
     public List<User> getAll() {
         return userService.getAll();
@@ -32,4 +39,5 @@ public class UserController {
         userService.update(user);
         return ResponseEntity.ok().build();
     }
+
 }
