@@ -3,13 +3,19 @@ package kg.attractor.lesson_49.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.http.HttpMethod;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
+
+import org.springframework.security.config.http.SessionCreationPolicy;
 
 import javax.sql.DataSource;
 
@@ -41,8 +47,12 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
+                .headers(headers -> headers.frameOptions(frame -> frame.disable()))
 
-                .headers(headers -> headers.frameOptions(frame -> frame.disable())) // для H2
+                //  Stateless
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
 
                 .authorizeHttpRequests(auth -> auth
 
@@ -62,15 +72,16 @@ public class SecurityConfig {
                         // просмотр вакансий
                         .requestMatchers(HttpMethod.GET, "/vacancies/**").permitAll()
 
-                        // защищено
+                        // защищенные
                         .requestMatchers("/resumes/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/vacancies/**").authenticated()
+                        .requestMatchers("/vacancies/*/respond").authenticated()
                         .requestMatchers("/files/**").authenticated()
-                        .requestMatchers("/vacancies/**").authenticated()
 
                         .anyRequest().permitAll()
                 )
 
-                .httpBasic();
+                .httpBasic(httpBasic -> {});
 
         return http.build();
     }

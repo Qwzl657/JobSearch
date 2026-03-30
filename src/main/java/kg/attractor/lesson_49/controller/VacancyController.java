@@ -1,15 +1,19 @@
 package kg.attractor.lesson_49.controller;
 
-import jakarta.validation.Valid;
 import kg.attractor.lesson_49.model.Vacancy;
-import kg.attractor.lesson_49.service.ResponseService;
+import kg.attractor.lesson_49.model.User;
 import kg.attractor.lesson_49.service.VacancyService;
+import kg.attractor.lesson_49.service.ResponseService;
+import kg.attractor.lesson_49.dao.UserDao;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import org.springframework.security.core.Authentication;
 
-import java.util.List;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/vacancies")
@@ -18,37 +22,22 @@ public class VacancyController {
 
     private final VacancyService vacancyService;
     private final ResponseService responseService;
+    private final UserDao userDao;
 
     @PostMapping
-    public ResponseEntity<String> createVacancy(@Valid @RequestBody Vacancy v) {
-        vacancyService.create(v);
-        return ResponseEntity.status(201).body("Vacancy created");
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateVacancy(
-            @PathVariable Long id,
-            @Valid @RequestBody Vacancy v
+    public ResponseEntity<?> create(
+            @Valid @RequestBody Vacancy vacancy,
+            Authentication auth
     ) {
-        v.setId(id);
-        vacancyService.update(v);
-        return ResponseEntity.ok("Vacancy updated");
-    }
+        String email = auth.getName();
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteVacancy(@PathVariable Long id) {
-        vacancyService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
+        User user = userDao.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-    @GetMapping
-    public ResponseEntity<List<Vacancy>> getAllVacancies() {
-        return ResponseEntity.ok(vacancyService.getAll());
-    }
+        vacancy.setUserId(user.getId());
 
-    @GetMapping("/category/{category}")
-    public ResponseEntity<List<Vacancy>> getVacanciesByCategory(@PathVariable String category) {
-        return ResponseEntity.ok(vacancyService.getByCategory(category));
+        vacancyService.create(vacancy);
+        return ResponseEntity.status(201).build();
     }
 
     @PostMapping("/{id}/respond")
@@ -58,9 +47,11 @@ public class VacancyController {
     ) {
         String email = auth.getName();
 
-        // пока просто логика (можно позже через сервис)
-        responseService.respond(1L, id); // можно потом улучшить
+        User user = userDao.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        return ResponseEntity.ok("Responded to vacancy by " + email);
+        responseService.respond(user.getId(), id);
+
+        return ResponseEntity.ok("Responded successfully");
     }
 }
