@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-foreign-keys
+      author: ali
+      changes:
+
+        - addForeignKeyConstraint:
+            baseTableName: resumes
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_resumes_user
+
+        - addForeignKeyConstraint:
+            baseTableName: vacancies
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_vacancies_user
+
+        - addForeignKeyConstraint:
+            baseTableName: responses
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_responses_user
+
+        - addForeignKeyConstraint:
+            baseTableName: responses
+            baseColumnNames: vacancy_id
+            referencedTableName: vacancies
+            referencedColumnNames: id
+            constraintName: fk_responses_vacancy
