@@ -8,7 +8,7 @@ databaseChangeLog:
             values ('FULL'), ('READ');
 
             insert into roles (role, authority_id)
-            values ('ADMIN', 1), ('USER', 2);
+            values ('ROLE_ADMIN', 1), ('ROLE_USER', 2);
 
             update users
             set enabled = true,

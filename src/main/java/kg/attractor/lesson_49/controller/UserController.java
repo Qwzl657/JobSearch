@@ -1,6 +1,7 @@
 package kg.attractor.lesson_49.controller;
 
 import jakarta.validation.Valid;
+import kg.attractor.lesson_49.dto.UserDto;
 import kg.attractor.lesson_49.model.User;
 import kg.attractor.lesson_49.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +19,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    //  регистрация
-    @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody User user) {
-        userService.create(user);
-        return ResponseEntity.status(201).build();
-    }
 
     @GetMapping
     public List<User> getAll() {
@@ -39,5 +34,16 @@ public class UserController {
         userService.update(user);
         return ResponseEntity.ok().build();
     }
+    @PostMapping
+    public ResponseEntity<?> create(@Valid @RequestBody UserDto dto) {
 
+        User user = User.builder()
+                .email(dto.getEmail())
+                .password(dto.getPassword())
+                .build();
+
+        userService.create(user);
+
+        return ResponseEntity.status(201).build();
+    }
 }

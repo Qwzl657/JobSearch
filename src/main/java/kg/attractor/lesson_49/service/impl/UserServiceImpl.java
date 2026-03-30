@@ -55,12 +55,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void update(User user) {
 
-        if (user.getEmail() == null || user.getEmail().isBlank()) {
-            throw new BadRequestException("Email не может быть пустым");
-        }
+        User existing = userDao.findById(user.getId())
+                .orElseThrow(() -> new NotFoundException("Пользователь не найден"));
 
-        if (!userDao.existsByEmail(user.getEmail())) {
-            throw new NotFoundException("Пользователь с таким email не найден");
+        if (!existing.getEmail().equals(user.getEmail())
+                && userDao.existsByEmail(user.getEmail())) {
+
+            throw new BadRequestException("Email уже занят");
         }
 
         log.warn("Updating user: {}", user.getEmail());

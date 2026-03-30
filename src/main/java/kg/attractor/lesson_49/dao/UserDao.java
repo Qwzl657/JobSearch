@@ -81,7 +81,7 @@ public class UserDao {
 
     public void create(User user) {
         String sql = """
-        INSERT INTO users (name, surname, age, email, password, phone_number, avatar, account_type, enabled, role_id)
+        INSERT INTO users (name, surname, age, email, password, phone_number, avatar, account_type,   enabled, role_id)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, true, 2)
     """;
 
@@ -95,5 +95,16 @@ public class UserDao {
                 user.getAvatar(),
                 user.getAccountType()
         );
+    }
+    public Optional<User> findById(Long id) {
+        String sql = "SELECT * FROM users WHERE id = ?";
+
+        List<User> users = jdbcTemplate.query(
+                sql,
+                new BeanPropertyRowMapper<>(User.class),
+                id
+        );
+
+        return users.stream().findFirst();
     }
 }

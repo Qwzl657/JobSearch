@@ -39,6 +39,8 @@ databaseChangeLog:
                   name: enabled
                   type: BOOLEAN
                   defaultValueBoolean: true
+                  constraints:
+                    nullable: false
               - column:
                   name: role_id
                   type: BIGINT
