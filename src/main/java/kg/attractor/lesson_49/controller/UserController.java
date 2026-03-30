@@ -1,6 +1,7 @@
 package kg.attractor.lesson_49.controller;
 
 import jakarta.validation.Valid;
+import kg.attractor.lesson_49.dto.UserDto;
 import kg.attractor.lesson_49.model.User;
 import kg.attractor.lesson_49.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ public class UserController {
         this.userService = userService;
     }
 
+
     @GetMapping
     public List<User> getAll() {
         return userService.getAll();
@@ -31,5 +33,23 @@ public class UserController {
         user.setId(id);
         userService.update(user);
         return ResponseEntity.ok().build();
+    }
+    @PostMapping
+    public ResponseEntity<?> create(@Valid @RequestBody UserDto dto) {
+
+// CHANGE
+        User user = User.builder()
+                .name(dto.getName())
+                .surname(dto.getSurname())
+                .age(dto.getAge())
+                .email(dto.getEmail())
+                .password(dto.getPassword())
+                .phoneNumber(dto.getPhoneNumber())
+                .accountType("USER")
+                .build();
+
+        userService.create(user);
+
+        return ResponseEntity.status(201).build();
     }
 }

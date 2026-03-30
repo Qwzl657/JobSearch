@@ -5,3 +5,7 @@ databaseChangeLog:
   - include: { file: 04_responses.yaml }
   - include: { file: 05_education.yaml }
   - include: { file: 06_experience.yaml }
+  - include: { file: 07_security.yaml }
+  - include: { file: 08_insert_security.yaml }
+  - include: { file: 09_insert_test_data.yaml }
+  - include: { file: 10_add_foreign_keys.yaml }

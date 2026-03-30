@@ -13,5 +13,7 @@ public interface UserService {
 
     boolean exists(String email);
 
+    void create(User user); // метод
+
     void update(User user);
 }

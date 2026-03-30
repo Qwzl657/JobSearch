@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -19,12 +20,16 @@ public class ResumeDao {
                 new BeanPropertyRowMapper<>(Resume.class));
     }
 
-    public Resume findById(Long id) {
-        return jdbcTemplate.queryForObject(
-                "SELECT * FROM resumes WHERE id = ?",
+    public Optional<Resume> findById(Long id) {
+        String sql = "SELECT * FROM resumes WHERE id = ?";
+
+        List<Resume> list = jdbcTemplate.query(
+                sql,
                 new BeanPropertyRowMapper<>(Resume.class),
                 id
         );
+
+        return list.stream().findFirst();
     }
 
     public void create(Resume resume) {

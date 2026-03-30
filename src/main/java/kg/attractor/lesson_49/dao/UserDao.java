@@ -15,11 +15,13 @@ public class UserDao {
 
     private final JdbcTemplate jdbcTemplate;
 
+    //  получить всех пользователей
     public List<User> findAll() {
         String sql = "SELECT * FROM users";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class));
     }
 
+    //  найти по email (ВАЖНО: один метод!)
     public Optional<User> findByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email = ?";
         List<User> users = jdbcTemplate.query(
@@ -27,10 +29,10 @@ public class UserDao {
                 new BeanPropertyRowMapper<>(User.class),
                 email
         );
-
         return users.stream().findFirst();
     }
 
+    //  найти по имени
     public List<User> findByName(String name) {
         String sql = "SELECT * FROM users WHERE name = ?";
         return jdbcTemplate.query(
@@ -40,6 +42,7 @@ public class UserDao {
         );
     }
 
+    // найти по телефону
     public List<User> findByPhone(String phone) {
         String sql = "SELECT * FROM users WHERE phone_number = ?";
         return jdbcTemplate.query(
@@ -49,17 +52,20 @@ public class UserDao {
         );
     }
 
+    //  проверка существует ли email
     public boolean existsByEmail(String email) {
         String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
         return count != null && count > 0;
     }
+
+    //  обновление пользователя
     public void update(User user) {
         String sql = """
-        UPDATE users 
-        SET name = ?, surname = ?, age = ?, email = ?, phone_number = ?, avatar = ?, account_type = ?
-        WHERE id = ?
-    """;
+            UPDATE users 
+            SET name = ?, surname = ?, age = ?, email = ?, phone_number = ?, avatar = ?, account_type = ?
+            WHERE id = ?
+        """;
 
         jdbcTemplate.update(sql,
                 user.getName(),
@@ -71,5 +77,34 @@ public class UserDao {
                 user.getAccountType(),
                 user.getId()
         );
+    }
+
+    public void create(User user) {
+        String sql = """
+        INSERT INTO users (name, surname, age, email, password, phone_number, avatar, account_type,   enabled, role_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, true, 2)
+    """;
+
+        jdbcTemplate.update(sql,
+                user.getName(),
+                user.getSurname(),
+                user.getAge(),
+                user.getEmail(),
+                user.getPassword(),
+                user.getPhoneNumber(),
+                user.getAvatar(),
+                user.getAccountType()
+        );
+    }
+    public Optional<User> findById(Long id) {
+        String sql = "SELECT * FROM users WHERE id = ?";
+
+        List<User> users = jdbcTemplate.query(
+                sql,
+                new BeanPropertyRowMapper<>(User.class),
+                id
+        );
+
+        return users.stream().findFirst();
     }
 }

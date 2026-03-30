@@ -1,13 +1,18 @@
 package kg.attractor.lesson_49.controller;
 
-import jakarta.validation.Valid;
 import kg.attractor.lesson_49.model.Resume;
+import kg.attractor.lesson_49.model.User;
 import kg.attractor.lesson_49.service.ResumeService;
+import kg.attractor.lesson_49.dao.UserDao;
+import kg.attractor.lesson_49.error.exception.NotFoundException;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
 
-import java.util.List;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/resumes")
@@ -15,27 +20,21 @@ import java.util.List;
 public class ResumeController {
 
     private final ResumeService resumeService;
+    private final UserDao userDao;
 
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody Resume resume) {
+    public ResponseEntity<?> create(
+            @Valid @RequestBody Resume resume,
+            Authentication auth
+    ) {
+        String email = auth.getName();
+
+        User user = userDao.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+        resume.setUserId(user.getId());
+
         resumeService.create(resume);
         return ResponseEntity.status(201).build();
-    }
-
-    @PutMapping
-    public ResponseEntity<?> update(@Valid @RequestBody Resume resume) {
-        resumeService.update(resume);
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        resumeService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Resume>> getAll() {
-        return ResponseEntity.ok(resumeService.getAll());
     }
 }
